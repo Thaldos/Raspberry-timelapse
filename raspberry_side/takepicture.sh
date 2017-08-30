@@ -1,2 +1,4 @@
-now=$(date +"%Y-%m-%d")
-raspistill -o /home/pi/Raspberry-Timelapse/pictures/$now.jpg
+#!/bin/sh
+
+today=$(date +"%Y-%m-%d")
+raspistill -o /home/pi/pictures/$today.jpg
