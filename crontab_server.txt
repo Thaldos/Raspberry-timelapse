@@ -1,0 +1,1 @@
+0 14 * * * /home/pi/Raspberry-Timelapse/takepicture.sh 2>&1
