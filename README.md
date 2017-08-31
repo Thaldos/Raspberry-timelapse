@@ -63,9 +63,13 @@ If it is not same : have patience and good luck.
 
 ### Install VNC server on Rasberry pi
 Follow these good tutorials :
+
 https://learn.adafruit.com/adafruit-raspberry-pi-lesson-7-remotecontrol-with-vnc/installing-vnc
+
 https://learn.adafruit.com/adafruit-raspberry-pi-lesson-7-remotecontrol-with-vnc/using-a-vnc-client
+
 https://learn.adafruit.com/adafruit-raspberry-pi-lesson-7-remotecontrol-with-vnc/running-vncserver-at-startup
+
 https://www.raspberrypi.org/forums/viewtopic.php?t=123457
 
 ### Install VNC viewer on Windows 
