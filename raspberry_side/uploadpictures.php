@@ -1,6 +1,8 @@
 <?php
 
-define('LOCAL_DIR', '/home/pi/pictures');
+include('lib/Net/SFTP.php');
+
+define('LOCAL_DIR', '/home/pi/timelapse/pictures');
 define('REMOTE_HOST', 'google.com');
 define('REMOTE_PORT', '21');
 define('REMOTE_USER', 'root');
@@ -12,8 +14,12 @@ function uploadpictures() {
     $isExistingLocalDir = isExistingLocalDir(LOCAL_DIR);
     if ($isExistingLocalDir) {
         // Get connection to remote server :
+        /** @var Net_SFTP $connection */
         $connection = getSFTPConnection(REMOTE_HOST, REMOTE_PORT, REMOTE_USER, REMOTE_PASS);
         if ($connection !== false) {
+            echo $connection->pwd() . "\r\n";
+
+
             // Check remote directory exists :
 //            $isExistingRemoteDir = isExistingRemoteDir($connection, REMOTE_DIR);
 //            if ($isExistingRemoteDir) {
@@ -33,75 +39,26 @@ function uploadpictures() {
 }
 
 /**
- * Return connection to given remote server, initialised in given directory.
+ * Return connection to given remote server, initialised in given directory,
+ * or false if errors.
  *
  * @param $host : the server we want to connect to
  * @param $port : the port of the server
  * @param $user : the user used for the connection
- * @param $password : the password associated with the login
- * @param $remoteDir : the directory where we want to be
+ * @param $password : the password
  *
- * @return resource a FTP stream on success or FALSE on error
+ * @return Net_SFTP|FALSE
  */
-function getFTPConnection($host, $port, $user, $password, $remoteDir) {
-    $connectionReturn = false;
-
-    // Test parameters :
-    if (!empty($host) && !empty($port) && !empty($user) && !empty($password) && !empty($remoteDir)) {
-        try {
-            // Get connect to server via ftp :
-            $connection = ftp_connect($host, $port, 15);
-            if ($connection !== false) {
-                try {
-                    // Log to ftp server :
-                    $ftpLogin = ftp_login($connection, $user, $password);
-                    if ($ftpLogin !== false) {
-                        // Change to passive mode :
-                        $isPassiveMode = ftp_pasv($connection, true);
-                        if ($isPassiveMode !== false) {
-
-                        } else {
-                            $message = 'Unable to set mode to passive';
-                            var_dump($message);
-                        }
-                    } else {
-                        $message = 'Cannot authenticating to FTP server ' . $host .
-                            ' with login ' . $user;
-                        var_dump($message);
-                    }
-                } catch (Exception $e) {
-                    $message = $e->getMessage();
-                    var_dump($message);
-                }
-            } else {
-                $message = 'Cannot connecti to remote server ' . $host . ' on port ' . $port;
-                var_dump($message);
-            }
-        } catch (Exception $e) {
-            $message = $e->getMessage();
-            var_dump($message);
-        }
-    } else {
-        $message = 'Wrong servers parameters';
-        var_dump($message);
-    }
-    return $connectionReturn;
-}
-
 function getSFTPConnection($host, $port, $user, $password) {
     $sftpConnection = false;
-
-    $connection = ssh2_connect($host, $port);
-    ssh2_auth_password($connection, $user, $password);
-    $sftp = ssh2_sftp($connection);
-    if ($sftp !== false) {
+    $sftp = new Net_SFTP($host, $port);
+    $sftpLogin = $sftp->login($user, $password);
+    if ($sftpLogin !== false) {
         $sftpConnection = $sftp;
+    } else {
+        $message = 'Cannot connect to remote server ' . $host . ' on port ' . $port. ' with user ' . $user . ' and password ' . $password;
+        var_dump($message);
     }
-//    $stream = fopen("ssh2.sftp://$sftp/path/to/file", 'r');
-
-    // https://stackoverflow.com/questions/34085742/get-csv-files-throw-sftp-php
-    // https://stackoverflow.com/questions/4376332/connect-to-a-server-via-sftp-php
-
     return $sftpConnection;
 }
 

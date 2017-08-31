@@ -5,7 +5,7 @@
 ## Requirements
 * [Raspberry pi 3 model B](https://www.adafruit.com/product/3055) (40€)
 * [SD cart](http://boutique.semageek.com/fr/773-micro-sd-16-gb-avec-adaptater-sd-et-os-noobs.html) (12€)
-* [Alimentation](http://boutique.semageek.com/fr/723-alimentation-raspberry-pi3-5v-25a-micro-usb.html)(15€)
+* [Alimentation](http://boutique.semageek.com/fr/723-alimentation-raspberry-pi3-5v-25a-micro-usb.html) (15€)
 * [Camera 8MP V2](http://boutique.semageek.com/fr/781-module-camera-8mp-v2-pour-raspberry-pi.html) (35€)
 * [Cable Camera 60cm](http://boutique.semageek.com/fr/365-cable-flex-610mm-pour-camera-raspberry-pi.html) (3€)
 * [Dissipateur thermique](https://www.adafruit.com/product/3082) (2€)
