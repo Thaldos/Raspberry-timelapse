@@ -12,12 +12,15 @@
 * A wifi connection
 * Patience and passion
 
+Total : 92€
+
 ## Installation
 ### Install Raspbian on your Raspberry pi
 https://www.raspberrypi.org/learning/hardware-guide/equipment/
 
 ### Install php 7.1 on your Raspberry pi
 https://www.noobunbox.net/serveur/auto-hebergement/installer-php-7-1-sous-debian-et-ubuntu
+
 Check if it is ok by typing in terminal `php -v`. 
 ### Fix Raspberry pi IP for wifi
 Type in terminal :
