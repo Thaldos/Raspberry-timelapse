@@ -77,7 +77,7 @@ And connect to `192.168.1.201:1`
 ### Setup on Raspberry pi
 #### Project files
 #### Cron
-Type in terminal `192.168.1.201:1` and add line :
+Type in terminal `crontab -e` and add line :
 ```
 0 14 * * * /home/pi/timelapse/takepicture.sh 2>&1
 0 16 * * * php /home/pi/timelapse/uploadpictures.php 2>&1
