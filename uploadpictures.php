@@ -1,66 +1,45 @@
 <?php
 
-define('ROOT_PATH', __DIR__ . '/');
-include(ROOT_PATH . 'lib/Net/SFTP.php');
+require_once __DIR__ . '/libs/vendor/autoload.php';
+define('LOCAL_DIR', __DIR__ . '/pictures');
 
-define('LOCAL_DIR', '/Applications/MAMP/htdocs/raspberry_timelpase/raspberry_side/pictures');
-define('REMOTE_HOST', 'google.com');
-define('REMOTE_PORT', '21');
-define('REMOTE_USER', 'root');
-define('REMOTE_PASS', 'yourpassword');
-define('REMOTE_DIR', '/home/debian/timelapse');
 
 function uploadpictures() {
     // Check if local directory exists :
     $isExistingLocalDir = isExistingLocalDir(LOCAL_DIR);
     if ($isExistingLocalDir) {
-        // Get connection to remote server :
-        /** @var Net_SFTP $connection */
-        $connection = getSFTPConnection(REMOTE_HOST, REMOTE_PORT, REMOTE_USER, REMOTE_PASS);
-        if ($connection !== false) {
-            echo $connection->pwd() . "\r\n";
+        $client = getGoogleConnexion();
+        session_start();
+        if (isset($_GET['code']) || (isset($_SESSION['access_token']) && $_SESSION['access_token'])) {
+            if (isset($_GET['code'])) {
+                $client->authenticate($_GET['code']);
+                $_SESSION['access_token'] = $client->getAccessToken();
+            } else {
+                $client->setAccessToken($_SESSION['access_token']);
+            }
+            $service = new Google_Service_Drive($client);
 
-
-            // Check remote directory exists :
-//            $isExistingRemoteDir = isExistingRemoteDir($connection, REMOTE_DIR);
-//            if ($isExistingRemoteDir) {
-//                $connectionReturn = $connection;
-//            } else {
-//                $message = 'Remote directory doesn\'t exists.';
-//                var_dump($message);
-//            }
+            // Insert file
+            $file = new Google_Service_Drive_DriveFile();
+            $file->setName(uniqid().'.jpg');
+            $file->setDescription('A test document');
+            $file->setMimeType('image/jpeg');
+            $data = file_get_contents('a.jpg');
+            $createdFile = $service->files->create($file, array(
+                'data' => $data,
+                'mimeType' => 'image/jpeg',
+                'uploadType' => 'multipart'
+            ));
+            print_r($createdFile);
         } else {
-            $message = 'Cannot get connection to remote server.';
-            var_dump($message);
+            $authUrl = $client->createAuthUrl();
+            header('Location: ' . $authUrl);
+            exit();
         }
     } else {
         $message = 'Local directory doesn\'t exists';
         var_dump($message);
     }
-}
-
-/**
- * Return connection to given remote server, initialised in given directory,
- * or false if errors.
- *
- * @param $host : the server we want to connect to
- * @param $port : the port of the server
- * @param $user : the user used for the connection
- * @param $password : the password
- *
- * @return Net_SFTP|FALSE
- */
-function getSFTPConnection($host, $port, $user, $password) {
-    $sftpConnection = false;
-    $sftp = new Net_SFTP($host, $port);
-    $sftpLogin = $sftp->login($user, $password);
-    if ($sftpLogin !== false) {
-        $sftpConnection = $sftp;
-    } else {
-        $message = 'Cannot connect to remote server ' . $host . ' on port ' . $port. ' with user ' . $user . ' and password ' . $password;
-        var_dump($message);
-    }
-    return $sftpConnection;
 }
 
 
@@ -89,37 +68,18 @@ function isExistingLocalDir($path) {
     return $isExisting;
 }
 
-
 /**
- * Return true if given remote directory exists, create it instead of
- * Return false if errors.
+ * Return google connexion.
  *
- * @param string $path Remote and absolute path.
- *
- * @return boolean
+ * @return Google_Client
  */
-function isExistingRemoteDir($connection, $path) {
-    $isExisting = true;
-
-    // Navigate to (and/or create) destination directory :
-    $directories = explode('/', $path);
-    foreach ($directories as $directory) {
-        if (!empty($directory)) {
-            if (!@ftp_chdir($connection, $directory)) {
-                if (!@ftp_mkdir($connection, $directory)) {
-                    $isExisting = false;
-                    $message = 'Error: Unable to create directory (' . $directory . ')';
-                    var_dump($message);
-                }
-                if (!@ftp_chdir($connection, $directory)) {
-                    $isExisting = false;
-                    $message = 'Error: Unable to change to directory (' . $directory . ')';
-                    var_dump($message);
-                }
-            }
-        }
-    }
-    return $isExisting;
+function getGoogleConnexion() {
+    $client = new Google_Client();
+    $client->setClientId('<YOUR_CLIENT_ID>');
+    $client->setClientSecret('<YOUR_CLIENT_SECRET>');
+    $client->setRedirectUri('<YOUR_REGISTERED_REDIRECT_URI>');
+    $client->setScopes(array('https://www.googleapis.com/auth/drive.file'));
+    return $client;
 }
 
 // Upload local pictures to remote server :

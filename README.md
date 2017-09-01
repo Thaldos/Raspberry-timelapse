@@ -77,7 +77,9 @@ And connect to `192.168.1.201:1`
 
 
 ### Setup files on Raspberry pi
-#### Files
+#### Download vendor files 
+In Lib directory : `composer update`
+
 #### Cron
 Type in terminal `crontab -e` and add line :
 ```
@@ -94,3 +96,4 @@ and create a new project.
 https://developers.google.com/drive/v3/web/quickstart/php
  https://github.com/google/google-api-php-client/blob/master/README.md
 
+https://console.cloud.google.com/
