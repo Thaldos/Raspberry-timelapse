@@ -3,5 +3,5 @@
 .buildpath
 .project
 .DS_Store
-lib/vendor/*
+libs/vendor/*
 pictures/*
