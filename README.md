@@ -2,7 +2,8 @@
 ## Result
 
 
-## Requirements
+## Prerequisites
+To do this timelpase, you'll need:
 * [Raspberry pi 3 model B](https://www.adafruit.com/product/3055) (40€)
 * [SD cart](http://boutique.semageek.com/fr/773-micro-sd-16-gb-avec-adaptater-sd-et-os-noobs.html) (12€)
 * [Alimentation](http://boutique.semageek.com/fr/723-alimentation-raspberry-pi3-5v-25a-micro-usb.html) (15€)
@@ -10,6 +11,7 @@
 * [Cable Camera 60cm](http://boutique.semageek.com/fr/365-cable-flex-610mm-pour-camera-raspberry-pi.html) (3€)
 * [Dissipateur thermique](https://www.adafruit.com/product/3082) (2€)
 * A wifi connection
+* A google drive account
 * Patience and passion
 
 Total : 92€
@@ -74,16 +76,21 @@ And connect to `192.168.1.201:1`
 > Important note : Be sure te be in same wifi network on both side.
 
 
-### Setup on Raspberry pi
-#### Project files
+### Setup files on Raspberry pi
+#### Files
 #### Cron
 Type in terminal `crontab -e` and add line :
 ```
 0 14 * * * /home/pi/timelapse/takepicture.sh 2>&1
 0 16 * * * php /home/pi/timelapse/uploadpictures.php 2>&1
 ```
- 
-### Setup on server
-#### Project files
-#### Cron
+
+### Create Google API account
+Go to https://console.developers.google.com/start/api?id=drive
+and create a new project.
+
+
+
+https://developers.google.com/drive/v3/web/quickstart/php
+ https://github.com/google/google-api-php-client/blob/master/README.md
 

@@ -1,8 +1,9 @@
 <?php
 
-include('lib/Net/SFTP.php');
+define('ROOT_PATH', __DIR__ . '/');
+include(ROOT_PATH . 'lib/Net/SFTP.php');
 
-define('LOCAL_DIR', '/home/pi/timelapse/pictures');
+define('LOCAL_DIR', '/Applications/MAMP/htdocs/raspberry_timelpase/raspberry_side/pictures');
 define('REMOTE_HOST', 'google.com');
 define('REMOTE_PORT', '21');
 define('REMOTE_USER', 'root');
