@@ -5,5 +5,5 @@
 .DS_Store
 libs/vendor/*
 libs\vendor\*
-pictures/*
-pictures\*
+raspberry_site/pictures/*
+raspberry_site\pictures\*
