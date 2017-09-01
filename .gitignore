@@ -4,4 +4,6 @@
 .project
 .DS_Store
 libs/vendor/*
+libs\vendor\*
 pictures/*
+pictures\*
