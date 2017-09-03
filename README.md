@@ -10,7 +10,7 @@ To make this project, you'll need:
 * [Camera 8MP V2](http://boutique.semageek.com/fr/781-module-camera-8mp-v2-pour-raspberry-pi.html) (35€)
 * [Cable Camera 60cm](http://boutique.semageek.com/fr/365-cable-flex-610mm-pour-camera-raspberry-pi.html) (3€)
 * [Dissipateur thermique](https://www.adafruit.com/product/3082) (2€)
-* [A Server](https://www.ovh.com/fr/vps/vps-ssd.xml) (4€/month)
+* [A Server](https://www.ovh.com/fr/vps/vps-ssd.xml) (4€/month) with postfix installed
 * A wifi connection
 * Patience and passion
 
