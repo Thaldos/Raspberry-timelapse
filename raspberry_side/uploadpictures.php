@@ -1,24 +1,18 @@
 <?php
 
-// Raspberry directory where takepicture.sh save pictures :
-define('PICTURES_PATH', __DIR__ . '/pictures');
-
-// Url where post pictures :
-define('URL_TO_POST_PICTURES', 'http://www.yourdomain.com/receivepicture.php');
+include_once 'config.php';
 
 /**
  * Post pictures from Raspberry to remote server.
- *
- * @return bool
  */
-function uploadpictures() {
+function uploadPictures() {
     // If raspberry directory where takepicture.sh save pictures, exists :
-    $isExistingLocalDir = isExistingLocalDir(PICTURES_PATH);
+    $isExistingLocalDir = isExistingLocalDir(RASPBERRY_PICTURES);
     if ($isExistingLocalDir) {
         $nbFilesFound = 0;
 
         // For each pictures :
-        $it = new RecursiveDirectoryIterator(PICTURES_PATH, RecursiveDirectoryIterator::SKIP_DOTS);
+        $it = new RecursiveDirectoryIterator(RASPBERRY_PICTURES, RecursiveDirectoryIterator::SKIP_DOTS);
         $files = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::CHILD_FIRST);
         /** @var SplFileInfo $file */
         foreach ($files as $file) {
@@ -27,11 +21,14 @@ function uploadpictures() {
                 $nbFilesFound += 1;
 
                 // Post this picture to remote server :
-                $postReturn = postPictureTo($file->getRealPath(), URL_TO_POST_PICTURES);
+                $postReturn = postPicture($file->getRealPath());
+                if ($postReturn !== true) {
+                    var_dump($postReturn);
+                }
             }
         }
 
-        // If no pictures found :
+        // Check number of pictures found :
         if ($nbFilesFound === 0) {
             $message = 'No pictures found today';
             var_dump($message);
@@ -40,35 +37,35 @@ function uploadpictures() {
             var_dump($message);
         }
     } else {
-        $message = 'Local directory doesn\'t exists';
+        $message = 'Local directory ' . RASPBERRY_PICTURES . 'doesn\'t exists';
         var_dump($message);
     }
 }
 
 
 /**
- * Post given picture to given url.
+ * Post given picture to remove url.
  *
  * @param $filePath Local and absolute picture path
- * @param $url Url to post picture
  *
  * @return string|bool
  */
-function postPictureTo($filePath, $url) {
+function postPicture($filePath) {
     $postReturn = false;
 
-    // Initialise the curl request :
-    $request = curl_init($url);
+    // Create file with unique token :
+    $options = array(
+        'file' => new CurlFile($filePath, 'image/jpg'),
+    );
 
     // Post the file :
+    $request = curl_init();
+    curl_setopt($request, CURLOPT_URL, URL);
     curl_setopt($request, CURLOPT_POST, true);
-    curl_setopt($request, CURLOPT_POSTFIELDS, array('file' => '@' . $filePath));
-
-    // Get the response :
+    curl_setopt($request, CURLOPT_POSTFIELDS, $options);
     curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
-    $postReturn = curl_exec($request);
-
-    // Close the session :
+    curl_setopt($request, CURLOPT_COOKIE, 'token=' . TOKEN);
+    $postReturn = json_decode(curl_exec($request));
     curl_close($request);
 
     return $postReturn;
@@ -102,4 +99,4 @@ function isExistingLocalDir($path) {
 
 
 // Upload Rapberry pictures to remote server :
-uploadpictures();
+uploadPictures();
