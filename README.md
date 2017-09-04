@@ -1,5 +1,6 @@
 # Raspberry-Timelapse
 ## Result
+[![Raspberry Timelapse](https://i.ytimg.com/vi/mRkYEhcqUxs/sddefault.jpg)](https://www.youtube.com/watch?v=mRkYEhcqUxs)
 
 
 ## Prerequisites
