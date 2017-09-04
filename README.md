@@ -77,22 +77,25 @@ Launch VNC viewer and add a new connection to `192.168.1.201:1`
 > Important note : Be sure te be on same wifi network on both side.
 
 
-### Copy files
+### Copy project files
 Copy all contained in `/raspberry_side` to your Raspberry `/home/pi/timelapse/`.
+
+### Copy project files
+Create empty directory `/home/pi/timelapse/pictures/` and chmod it to 777.
 
 ### Customize config.php
 Customize constants contained in `config.php`
 > TOKEN value in `raspberry_side/config.php` and in `server_side/config.php` must be equal.
 
 ### Set cron tab
-Type in terminal `crontab -e` and add line :
+On your Raspberry, type in terminal `crontab -e` and add line :
 ```
 0 14 * * * /home/pi/timelapse/takepicture.sh 2>&1
 0 16 * * * php /home/pi/timelapse/uploadpictures.php 2>&1
 ```
 
 ## Server installation
-### Copy files
+### Copy project files
 Copy all contained in `/server_side` to your server in `/var/www/html/yourdomain/`.
 
 ### Customize config.php
@@ -100,8 +103,8 @@ Customize constants contained in `config.php`
 > TOKEN value in `raspberry_side/config.php` and in `server_side/config.php` must be equal.
 
 
-#### Set cron tab
-Type in terminal `crontab -e` and add line, where you will replace `yourdomain`:
+### Set cron tab
+On your server, type in terminal `crontab -e` and add line, where you will replace `yourdomain`:
 ```
 0 18 * * * php /var/www/html/yourdomain/checktodaypicture.php 2>&1
 ```
