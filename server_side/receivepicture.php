@@ -16,8 +16,8 @@ function receivePicture() {
         if (!$isOk) {
             mail(
                 EMAIL_TO,
-                'Raspberry Timelapse : connat move file',
-                'Error : Cannot move uploaded file "' . $_FILES['file']['name'] . '" to "' . SERVER_PICTURES .'"'
+                'Raspberry Timelapse : cannot move file',
+                'Error : Cannot move uploaded file "' . $_FILES['file']['name'] . '" to "' . SERVER_PICTURES . '/' . $_FILES['file']['name'] .'"'
             );
         }
     }
