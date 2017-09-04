@@ -18,7 +18,7 @@ To make this project, you'll need:
 * Patience and passion
 
 Total : 92€
-
+##
 ## Raspberry pi installation
 ### Install Raspbian
 https://www.raspberrypi.org/learning/hardware-guide/equipment/
@@ -29,7 +29,7 @@ https://www.noobunbox.net/serveur/auto-hebergement/installer-php-7-1-sous-debian
 Check if it is ok by typing in terminal `php -v`.
 
 ### Fix IP
-Type in terminal :
+Type in Raspberry terminal :
 `sudo nano /etc/network/interfaces` then set this content :
 ```
 # interfaces(5) file used by ifup(8) and ifdown(8)
@@ -99,7 +99,8 @@ On your Raspberry, type in terminal `crontab -e` and add line :
 ```
 
 ### Install Curl
-
+On your Raspberry, type in terminal `sudo apt-get install php-curl`.
+##
 ## Server installation
 ### Copy project files
 Copy all contained in `/server_side` to your server in `/var/www/html/yourdomain/`.
