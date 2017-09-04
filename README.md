@@ -83,7 +83,8 @@ Launch VNC viewer and add a new connection to `192.168.1.201:1`
 ### Copy project files
 Copy all contained in `/raspberry_side` to your Raspberry `/home/pi/timelapse/`.
 
-### Copy project files
+Chmod file `/home/pi/timelapse/takepicture.sh` to 777.
+
 Create empty directory `/home/pi/timelapse/pictures/` and chmod it to 777.
 
 ### Customize config.php
@@ -96,6 +97,8 @@ On your Raspberry, type in terminal `crontab -e` and add line :
 0 14 * * * /home/pi/timelapse/takepicture.sh 2>&1
 0 16 * * * php /home/pi/timelapse/uploadpictures.php 2>&1
 ```
+
+### Install Curl
 
 ## Server installation
 ### Copy project files
