@@ -17,7 +17,7 @@ function uploadPictures() {
         /** @var SplFileInfo $file */
         foreach ($files as $file) {
             // If it is a file :
-            if ($file->isFile()) {
+            if ($file->isFile() && $file->getExtension() !== 'DS_Store') {
                 $nbFilesFound += 1;
 
                 // Post this picture to remote server :
