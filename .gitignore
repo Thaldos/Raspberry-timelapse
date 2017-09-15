@@ -3,7 +3,3 @@
 .buildpath
 .project
 .DS_Store
-libs/vendor/*
-libs\vendor\*
-raspberry_side/pictures/*
-raspberry_side\pictures\*

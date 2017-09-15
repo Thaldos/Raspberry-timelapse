@@ -3,30 +3,33 @@
 include_once 'config.php';
 
 /**
- * Post pictures from Raspberry to remote server.
+ * Send pictures from Raspberry by mail.
  */
-function uploadPictures() {
+function sendPictures() {
     // If raspberry directory where takepicture.sh save pictures, exists :
-    $isExistingLocalDir = isExistingLocalDir(RASPBERRY_PICTURES);
+    $isExistingLocalDir = isExistingLocalDir(RASPBERRY_PICTURES_DIRECTORY);
     if ($isExistingLocalDir) {
         $nbFilesFound = 0;
 
+        // Create zip :
+        $zip = new ZipArchive();
+
         // For each pictures :
-        $it = new RecursiveDirectoryIterator(RASPBERRY_PICTURES, RecursiveDirectoryIterator::SKIP_DOTS);
+        $it = new RecursiveDirectoryIterator(RASPBERRY_PICTURES_DIRECTORY, RecursiveDirectoryIterator::SKIP_DOTS);
         $files = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::CHILD_FIRST);
         /** @var SplFileInfo $file */
         foreach ($files as $file) {
-            // If it is a file :
-            if ($file->isFile() && $file->getExtension() !== 'DS_Store') {
+            // If it is a jpg file :
+            if ($file->isFile() && $file->getExtension() === 'jpg') {
                 $nbFilesFound += 1;
 
-                // Post this picture to remote server :
-                $postReturn = postPicture($file->getRealPath());
-                if ($postReturn !== true) {
-                    var_dump($postReturn);
-                }
+                // Add it to zip :
+
             }
         }
+
+        // Send email with zip attached :
+        sendEmailWithAttachment($zipPath);
 
         // Check number of pictures found :
         if ($nbFilesFound === 0) {
@@ -37,38 +40,36 @@ function uploadPictures() {
             var_dump($message);
         }
     } else {
-        $message = 'Local directory ' . RASPBERRY_PICTURES . 'doesn\'t exists';
+        $message = 'Local directory ' . RASPBERRY_PICTURES_DIRECTORY . 'doesn\'t exists';
         var_dump($message);
     }
 }
 
 
 /**
- * Post given picture to remove url.
+ * Send email with file attached.
  *
- * @param $filePath Local and absolute picture path
+ * @param $filePath Local and absolute file path
  *
- * @return string|bool
+ * @return bool
  */
-function postPicture($filePath) {
-    $postReturn = false;
+function sendEmailWithAttachment($filePath) {
+    $sendReturn = false;
 
-    // Create file with unique token :
-    $options = array(
-        'file' => new CurlFile($filePath, 'image/jpg'),
-    );
+    $email = new PHPMailer();
+    $email->From      = 'you@example.com';
+    $email->FromName  = 'Your Name';
+    $email->Subject   = 'Message Subject';
+    $email->Body      = $bodytext;
+    $email->AddAddress( 'destinationaddress@example.com' );
 
-    // Post the file :
-    $request = curl_init();
-    curl_setopt($request, CURLOPT_URL, URL);
-    curl_setopt($request, CURLOPT_POST, true);
-    curl_setopt($request, CURLOPT_POSTFIELDS, $options);
-    curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($request, CURLOPT_COOKIE, 'token=' . TOKEN);
-    $postReturn = json_decode(curl_exec($request));
-    curl_close($request);
+    $file_to_attach = 'PATH_OF_YOUR_FILE_HERE';
 
-    return $postReturn;
+    $email->AddAttachment( $file_to_attach , 'NameOfFile.pdf' );
+
+    $sendReturn = $email->Send();
+
+    return $sendReturn;
 }
 
 
@@ -98,5 +99,5 @@ function isExistingLocalDir($path) {
 }
 
 
-// Upload Rapberry pictures to remote server :
-uploadPictures();
+// Send pictures from Raspberry by mail :
+sendPictures();
