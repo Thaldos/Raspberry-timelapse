@@ -12,8 +12,6 @@ To make this project, you'll need:
 * [Alimentation](http://boutique.semageek.com/fr/723-alimentation-raspberry-pi3-5v-25a-micro-usb.html) (15€)
 * [Camera 8MP V2](http://boutique.semageek.com/fr/781-module-camera-8mp-v2-pour-raspberry-pi.html) (35€)
 * [Cable Camera 60cm](http://boutique.semageek.com/fr/365-cable-flex-610mm-pour-camera-raspberry-pi.html) (3€)
-* [Dissipateur thermique](https://www.adafruit.com/product/3082) (2€)
-* [A Server](https://www.ovh.com/fr/vps/vps-ssd.xml) (4€/month) with postfix installed
 * A wifi connection
 * Patience and passion
 
@@ -79,39 +77,28 @@ Launch VNC viewer and add a new connection to `192.168.1.201:1`
 
 > Important note : Be sure te be on same wifi network on both side.
 
+### Install smtp
+Follow this good tutorial :
+
+https://hotfirenet.com/blog/1704-envoyer-mail-depuis-le-raspberry-pi/
+
 
 ### Copy project files
-Copy all contained in `/raspberry_side` to your Raspberry `/home/pi/timelapse/`.
+Copy all project files to your Raspberry in `/home/pi/timelapse/`.
 
 Chmod file `/home/pi/timelapse/takepicture.sh` to 777.
 
-Create empty directory `/home/pi/timelapse/pictures/` and chmod it to 777.
+Chmod directory `/home/pi/timelapse/pictures/` to 777.
 
 ### Customize config.php
 Customize constants contained in `config.php`
-> TOKEN value in `raspberry_side/config.php` and in `server_side/config.php` must be equal.
 
 ### Set cron tab
 On your Raspberry, type in terminal `crontab -e` and add line :
 ```
 0 14 * * * /home/pi/timelapse/takepicture.sh 2>&1
-0 16 * * * php /home/pi/timelapse/uploadpictures.php 2>&1
+0 16 * * * php /home/pi/timelapse/sendpictures.php 2>&1
 ```
 
-### Install Curl
-On your Raspberry, type in terminal `sudo apt-get install php-curl`.
-##
-## Server installation
-### Copy project files
-Copy all contained in `/server_side` to your server in `/var/www/html/yourdomain/`.
-
-### Customize config.php
-Customize constants contained in `config.php`
-> TOKEN value in `raspberry_side/config.php` and in `server_side/config.php` must be equal.
-
-
-### Set cron tab
-On your server, type in terminal `crontab -e` and add line, where you will replace `yourdomain`:
-```
-0 18 * * * php /var/www/html/yourdomain/checktodaypicture.php 2>&1
-```
+### Enjoy
+Your Raspberry pi will take a picture every day, and send you pictures every month by mail.
