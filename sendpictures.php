@@ -9,11 +9,53 @@ function sendPictures() {
     // If raspberry directory where takepicture.sh save pictures, exists :
     $isExistingLocalDir = isExistingLocalDir(RASPBERRY_PICTURES_DIRECTORY);
     if ($isExistingLocalDir) {
-        $nbFilesFound = 0;
+        // Create and get path of zip with all pictures :
+        $zipPath = getZipPath(RASPBERRY_PICTURES_DIRECTORY);
+        if ($zipPath !== false) {
+            // Send zip by mail :
+//            sendEmailWithAttachment($zipPath);
 
-        // Create zip :
-        $zip = new ZipArchive();
+            // Remove pictures :
+            $isOkRemoveAllFiles = removeAllFilesIn(RASPBERRY_PICTURES_DIRECTORY);
+            if ($isOkRemoveAllFiles !== false) {
+                // Remove zip file :
+                $isOkRemoveZip = removeZipFile($zipPath);
+                if ($isOkRemoveAllFiles !== false) {
+                    // All is fine.
+                } else {
+                    $message = 'Cannot remove zip file : ' . $zipPath;
+                    var_dump($message);
+                }
+            } else {
+                $message = 'Cannot remove all files in ' . RASPBERRY_PICTURES_DIRECTORY;
+                var_dump($message);
+            }
+        } else {
+            $message = 'Cannot create and get path of zip file.';
+            var_dump($message);
+        }
+    } else {
+        $message = 'Local directory ' . RASPBERRY_PICTURES_DIRECTORY . 'doesn\'t exists';
+        var_dump($message);
+    }
+}
 
+
+/**
+ * Create and return path of zip file with all pictures.
+ *
+ * @param $picturesDir Pictures directory.
+ *
+ * @return string|bool
+ */
+function getZipPath($picturesDir) {
+    $zipPath = false;
+
+    // Create zip file :
+    $path = __DIR__ . '/timelapse-pictures.zip';
+    $zip = new ZipArchive();
+    $openReturn = $zip->open($path, ZipArchive::CREATE);
+    if ($openReturn === true) {
         // For each pictures :
         $it = new RecursiveDirectoryIterator(RASPBERRY_PICTURES_DIRECTORY, RecursiveDirectoryIterator::SKIP_DOTS);
         $files = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::CHILD_FIRST);
@@ -21,28 +63,20 @@ function sendPictures() {
         foreach ($files as $file) {
             // If it is a jpg file :
             if ($file->isFile() && $file->getExtension() === 'jpg') {
-                $nbFilesFound += 1;
-
                 // Add it to zip :
-
+                $zip->addFile($file->getRealPath(), $file->getFilename());
             }
         }
+        $zipPath = $path;
 
-        // Send email with zip attached :
-        sendEmailWithAttachment($zipPath);
-
-        // Check number of pictures found :
-        if ($nbFilesFound === 0) {
-            $message = 'No pictures found today';
-            var_dump($message);
-        } elseif ($nbFilesFound > 1) {
-            $message = $nbFilesFound . ' pictures found today';
-            var_dump($message);
-        }
+        // Close zip file :
+        $zip->close();
     } else {
-        $message = 'Local directory ' . RASPBERRY_PICTURES_DIRECTORY . 'doesn\'t exists';
+        $message = 'Cannot create zip file ' . $path . '. Error code : ' . $openReturn . '.';
         var_dump($message);
     }
+
+    return $zipPath;
 }
 
 
@@ -70,6 +104,30 @@ function sendEmailWithAttachment($filePath) {
     $sendReturn = $email->Send();
 
     return $sendReturn;
+}
+
+
+/**
+ * Remove all files contained in given directory.
+ *
+ * @return bool
+ */
+function removeAllFilesIn($dirPath) {
+    $isOk = true;
+
+    return $isOk;
+}
+
+
+/**
+ * Remove zip file.
+ *
+ * @return bool
+ */
+function removeZipFile($zipPath) {
+    $isOk = true;
+
+    return $isOk;
 }
 
 

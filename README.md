@@ -88,6 +88,8 @@ Copy all project files to your Raspberry in `/home/pi/timelapse/`.
 
 Chmod file `/home/pi/timelapse/takepicture.sh` to 777.
 
+Chmod file `/home/pi/timelapse/sendpictures.php` to 777.
+
 Chmod directory `/home/pi/timelapse/pictures/` to 777.
 
 ### Customize config.php
@@ -97,7 +99,7 @@ Customize constants contained in `config.php`
 On your Raspberry, type in terminal `crontab -e` and add line :
 ```
 0 14 * * * /home/pi/timelapse/takepicture.sh 2>&1
-0 16 * * * php /home/pi/timelapse/sendpictures.php 2>&1
+0 0 1 * * php /home/pi/timelapse/sendpictures.php 2>&1
 ```
 
 ### Enjoy
