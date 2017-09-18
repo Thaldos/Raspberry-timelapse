@@ -101,4 +101,4 @@ On your Raspberry, type in terminal `crontab -e` and add line :
 ```
 
 ### Enjoy
-Your Raspberry pi will take a picture every day, and send you pictures every month by mail.
+Your Raspberry pi will take a picture every day, and send you by mail pictures every month.
