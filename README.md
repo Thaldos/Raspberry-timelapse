@@ -15,7 +15,7 @@ To make this project, you'll need:
 * A wifi connection
 * Patience and passion
 
-Total : 92€
+Total : 105€
 ##
 ## Raspberry pi installation
 ### Install Raspbian
