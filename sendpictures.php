@@ -1,9 +1,11 @@
 <?php
 
 include_once 'config.php';
+include_once 'PHPMailer/PHPMailer.php';
 
 /**
- * Send pictures from Raspberry by mail.
+ * Send pictures by mail then removes them from Raspberry.
+ * Send mails if errors occured.
  */
 function sendPictures() {
     // If raspberry directory where takepicture.sh save pictures, exists :
@@ -13,30 +15,37 @@ function sendPictures() {
         $zipPath = getZipPath(RASPBERRY_PICTURES_DIRECTORY);
         if ($zipPath !== false) {
             // Send zip by mail :
-//            sendEmailWithAttachment($zipPath);
-
-            // Remove pictures :
-            $isOkRemoveAllFiles = removeAllFilesIn(RASPBERRY_PICTURES_DIRECTORY);
-            if ($isOkRemoveAllFiles !== false) {
-                // Remove zip file :
-                $isOkRemoveZip = removeZipFile($zipPath);
+            $sendMailWithAttachmentReturn = sendMailWithAttachment($zipPath);
+            if ($sendMailWithAttachmentReturn !== false) {
+                // Remove pictures :
+                $isOkRemoveAllFiles = removeAllFilesIn(RASPBERRY_PICTURES_DIRECTORY);
                 if ($isOkRemoveAllFiles !== false) {
-                    // All is fine.
+                    // Remove zip file :
+                    $isOkRemoveZip = removeZipFile($zipPath);
+                    if ($isOkRemoveAllFiles === false) {
+                        $message = 'Cannot remove zip file : ' . $zipPath;
+                        var_dump($message);
+                        sendMail('Raspberry Timelapse : Cannot remove zip file', $message);
+                    }
                 } else {
-                    $message = 'Cannot remove zip file : ' . $zipPath;
+                    $message = 'Cannot remove all files in ' . RASPBERRY_PICTURES_DIRECTORY;
                     var_dump($message);
+                    sendMail('Raspberry Timelapse : Cannot remove all files', $message);
                 }
             } else {
-                $message = 'Cannot remove all files in ' . RASPBERRY_PICTURES_DIRECTORY;
+                $message = 'Cannot send mail.';
                 var_dump($message);
+                sendMail('Raspberry Timelapse : Cannot send mail', $message);
             }
         } else {
             $message = 'Cannot create and get path of zip file.';
             var_dump($message);
+            sendMail('Raspberry Timelapse : Cannot create and get path of zip file', $message);
         }
     } else {
         $message = 'Local directory ' . RASPBERRY_PICTURES_DIRECTORY . 'doesn\'t exists';
         var_dump($message);
+        sendMail('Raspberry Timelapse : Local directory doesn\'t exists', $message);
     }
 }
 
@@ -74,8 +83,8 @@ function getZipPath($picturesDir) {
     } else {
         $message = 'Cannot create zip file ' . $path . '. Error code : ' . $openReturn . '.';
         var_dump($message);
+        sendMail('Raspberry Timelapse : Cannot create zip file ', $message);
     }
-
     return $zipPath;
 }
 
@@ -87,22 +96,23 @@ function getZipPath($picturesDir) {
  *
  * @return bool
  */
-function sendEmailWithAttachment($filePath) {
+function sendMailWithAttachment($filePath) {
     $sendReturn = false;
 
     $email = new PHPMailer();
-    $email->From      = 'you@example.com';
-    $email->FromName  = 'Your Name';
-    $email->Subject   = 'Message Subject';
-    $email->Body      = $bodytext;
-    $email->AddAddress( 'destinationaddress@example.com' );
+//    $email->From      = 'you@example.com';
+//    $email->FromName  = 'Your Name';
+//    $email->Subject   = 'Message Subject';
+//    $email->Body      = $bodytext;
+//    $email->AddAddress( 'destinationaddress@example.com' );
+//
+//    $file_to_attach = 'PATH_OF_YOUR_FILE_HERE';
+//
+//    $email->AddAttachment( $file_to_attach , 'NameOfFile.pdf' );
+//
+//    $sendReturn = $email->Send();
 
-    $file_to_attach = 'PATH_OF_YOUR_FILE_HERE';
-
-    $email->AddAttachment( $file_to_attach , 'NameOfFile.pdf' );
-
-    $sendReturn = $email->Send();
-
+    $sendReturn = true;
     return $sendReturn;
 }
 
@@ -146,16 +156,26 @@ function isExistingLocalDir($path) {
             if (!mkdir($path, 0777, true)) {
                 $message = 'Unable to create directory (' . $path . ')';
                 var_dump($message);
+                sendMail('Raspberry Timelapse : Unable to create directory', $message);
             }
         } catch (Exception $e) {
             $isExisting = false;
             $message = $e->getMessage();
             var_dump($message);
+            sendMail('Raspberry Timelapse : Exception', $message);
         }
     }
     return $isExisting;
 }
 
 
-// Send pictures from Raspberry by mail :
+/**
+ * Send email to EMAIL_TO.
+ */
+function sendMail($subject, $message) {
+    mail(EMAIL_TO, $subject, $message);
+}
+
+
+// Send pictures by mail then removes them from Raspberry :
 sendPictures();
