@@ -5,7 +5,7 @@ include_once 'PHPMailer/class.phpmailer.php';
 
 /**
  * Send pictures by mail then removes them from Raspberry.
- * Send mails if errors occured.
+ * Send mails if errors occurred.
  */
 function sendPictures() {
     // If raspberry directory where takepicture.sh save pictures, exists :
@@ -23,7 +23,7 @@ function sendPictures() {
                     // Remove zip file :
                     $isOkRemoveZip = removeZipFile($zipPath);
                     if ($isOkRemoveAllFiles !== false) {
-                        $message = 'Pictures successfully sent by mail and remove from Raspberry pi.';
+                        $message = 'Pictures successfully sent by mail and removed from Raspberry pi.';
                         var_dump($message);
                     } else {
                         $message = 'Cannot remove zip file : ' . $zipPath;
