@@ -1,7 +1,7 @@
 <?php
 
 include_once 'config.php';
-include_once 'PHPMailer/PHPMailer.php';
+include_once 'PHPMailer/class.phpmailer.php';
 
 /**
  * Send pictures by mail then removes them from Raspberry.
@@ -16,13 +16,16 @@ function sendPictures() {
         if ($zipPath !== false) {
             // Send zip by mail :
             $sendMailWithAttachmentReturn = sendMailWithAttachment($zipPath);
-            if ($sendMailWithAttachmentReturn !== false) {
+            if ($sendMailWithAttachmentReturn) {
                 // Remove pictures :
                 $isOkRemoveAllFiles = removeAllFilesIn(RASPBERRY_PICTURES_DIRECTORY);
                 if ($isOkRemoveAllFiles !== false) {
                     // Remove zip file :
                     $isOkRemoveZip = removeZipFile($zipPath);
-                    if ($isOkRemoveAllFiles === false) {
+                    if ($isOkRemoveAllFiles !== false) {
+                        $message = 'Pictures successfully sent by mail and remove from Raspberry pi.';
+                        var_dump($message);
+                    } else {
                         $message = 'Cannot remove zip file : ' . $zipPath;
                         var_dump($message);
                         sendMail('Raspberry Timelapse : Cannot remove zip file', $message);
@@ -33,7 +36,7 @@ function sendPictures() {
                     sendMail('Raspberry Timelapse : Cannot remove all files', $message);
                 }
             } else {
-                $message = 'Cannot send mail.';
+                $message = 'Cannot send mail. Error : ' . $sendMailWithAttachmentReturn;
                 var_dump($message);
                 sendMail('Raspberry Timelapse : Cannot send mail', $message);
             }
@@ -99,20 +102,19 @@ function getZipPath($picturesDir) {
 function sendMailWithAttachment($filePath) {
     $sendReturn = false;
 
-    $email = new PHPMailer();
-//    $email->From      = 'you@example.com';
-//    $email->FromName  = 'Your Name';
-//    $email->Subject   = 'Message Subject';
-//    $email->Body      = $bodytext;
-//    $email->AddAddress( 'destinationaddress@example.com' );
-//
-//    $file_to_attach = 'PATH_OF_YOUR_FILE_HERE';
-//
-//    $email->AddAttachment( $file_to_attach , 'NameOfFile.pdf' );
-//
-//    $sendReturn = $email->Send();
+    // Get current year and month :
+    $month = Date('F');
+    $year = Date('Y');
 
-    $sendReturn = true;
+    // Send mail :
+    $email = new PHPMailer();
+    $email->From      = 'raspberry@localhost.com';
+    $email->FromName  = 'Raspberry Timelapse';
+    $email->Subject   = 'Raspberry Timelapse : Pictures of ' . $year . ' ' . $month;
+    $email->Body      = 'Hello, attached the pictures of ' . $year . ' ' . $month . '.';
+    $email->AddAddress(EMAIL_TO);
+    $email->AddAttachment($filePath);
+    $sendReturn = $email->Send();
     return $sendReturn;
 }
 
@@ -125,6 +127,17 @@ function sendMailWithAttachment($filePath) {
 function removeAllFilesIn($dirPath) {
     $isOk = true;
 
+    // Get all file names :
+    $files = glob($dirPath . '/*');
+
+    // For each jpg file :
+    foreach ($files as $file) {
+        if (is_file($file) && substr($file, -3) === 'jpg') {
+            // Delete file :
+            $unlinkReturn = unlink($file);
+            $isOk = $isOk && $unlinkReturn;
+        }
+    }
     return $isOk;
 }
 
@@ -137,6 +150,11 @@ function removeAllFilesIn($dirPath) {
 function removeZipFile($zipPath) {
     $isOk = true;
 
+    // If it is a zip file :
+    if (is_file($zipPath) && substr($zipPath, -3) === 'zip') {
+        // Delete file :
+        $isOk = unlink($zipPath);
+    }
     return $isOk;
 }
 
