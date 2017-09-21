@@ -26,6 +26,25 @@ https://www.noobunbox.net/serveur/auto-hebergement/installer-php-7-1-sous-debian
 
 Check if it is ok by typing in terminal `php -v`.
 
+### Wi-Fi autoconnect
+
+`sudo editor /etc/wpa_supplicant/wpa_supplicant.conf`
+Append as many networks as you want - some examples:
+
+```
+# Secure Wi-Fi example:
+network={
+    ssid="{your-ssid}"
+    psk="{your-key}"
+}
+
+# Open Wi-Fi example:
+network={
+    ssid="muenchen.freifunk.net"
+    key_mgmt=NONE
+}
+```
+
 ### Fix IP
 Type in Raspberry terminal :
 `sudo nano /etc/network/interfaces` then set this content :
