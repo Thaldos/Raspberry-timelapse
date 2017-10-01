@@ -111,7 +111,7 @@ function sendMailWithAttachment($filePath) {
     $email->From      = 'raspberry@localhost.com';
     $email->FromName  = 'Raspberry Timelapse';
     $email->Subject   = 'Raspberry Timelapse : Pictures of ' . $year . ' ' . $month;
-    $email->Body      = 'Hello, attached the pictures of ' . $year . ' ' . $month . '.';
+    $email->Body      = 'Hello, this are the pictures of ' . $year . ' ' . $month . '.';
     $email->AddAddress(EMAIL_TO);
     $email->AddAttachment($filePath);
     $sendReturn = $email->Send();
