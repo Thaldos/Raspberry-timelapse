@@ -6,7 +6,8 @@ Click to play on youtube :
 
 ## My hardware installation
 
-![Raspberry Timelapse installation](https://www.hostingpics.net/viewer.php?id=990605raspberrypitimelapse.jpg)
+[![Raspberry Timelapse installation](https://www.hostingpics.net/viewer.php?id=990605raspberrypitimelapse.jpg)]
+
 
 
 
