@@ -12,9 +12,6 @@ Click to play on youtube :
 [![Raspberry Timelapse installation 4](https://i.imgur.com/hfO7SQW.jpg)](https://i.imgur.com/hfO7SQW.jpg)
 [![Raspberry Timelapse installation 5](https://i.imgur.com/iuf27CX.jpg)](https://i.imgur.com/iuf27CX.jpg)
 
-
-
-
 ## Prerequisites
 To make this project, you'll need:
 * [Raspberry pi 3 model B](https://www.adafruit.com/product/3055) (40€)
