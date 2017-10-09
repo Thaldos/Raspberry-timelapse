@@ -1,8 +1,13 @@
 # Raspberry-Timelapse
-## Result
+## Video result
 Click to play on youtube :
 
 [![Raspberry Timelapse](https://i.ytimg.com/vi/mRkYEhcqUxs/sddefault.jpg)](https://www.youtube.com/watch?v=mRkYEhcqUxs)
+
+## My hardware installation
+
+[![Raspberry Timelapse installation](https://img11.hostingpics.net/thumbs/mini_990605raspberrypitimelapse.jpg)](https://www.hostingpics.net/viewer.php?id=990605raspberrypitimelapse.jpg)
+
 
 
 ## Prerequisites
