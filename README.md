@@ -26,12 +26,15 @@ Total : 105€
 ##
 ## Raspberry pi installation
 ### Install Raspbian
-https://www.raspberrypi.org/learning/hardware-guide/equipment/
+https://www.raspberrypi.org/documentation/installation/installing-images/
 
 ### Install php 7.1
 https://www.noobunbox.net/serveur/auto-hebergement/installer-php-7-1-sous-debian-et-ubuntu
 
 Check if it is ok by typing in terminal `php -v`.
+
+### Connect and enable your camera
+https://www.raspberrypi.org/documentation/configuration/camera.md
 
 ### Wi-Fi autoconnect
 
