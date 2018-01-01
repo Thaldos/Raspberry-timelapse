@@ -103,7 +103,7 @@ function sendMailWithAttachment($filePath) {
     $sendReturn = false;
 
     // Get current year and month :
-    $month = Date('F');
+    $month = Date('F', strtotime('last month'));
     $year = Date('Y');
 
     // Send mail :
