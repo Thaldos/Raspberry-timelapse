@@ -1,4 +1,4 @@
-# Raspberry-Timelapse
+# Raspberry-timelapse
 ## Video result
 Click to play on youtube :
 
