@@ -128,7 +128,7 @@ If, like me, you use gmail, this is a good configuration :
 hostname=anexistingwebdomain.com
 root=monLogin@gmail.com
 mailhub=smtp.gmail.com:587
-AuthUser= monLogin@gmail.com
+AuthUser=monLogin@gmail.com
 AuthPass=monbeauPaSsWoRd
 FromLineOverride=YES
 UseSTARTTLS=YES
