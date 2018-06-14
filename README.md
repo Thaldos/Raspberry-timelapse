@@ -2,11 +2,10 @@
 ## Video result
 Click to play on youtube :
 
-[![Raspberry Timelapse](https://i.ytimg.com/vi/mRkYEhcqUxs/sddefault.jpg)](https://www.youtube.com/watch?v=mRkYEhcqUxs)
+[![Raspberry Timelapse](https://i.ytimg.com/vi/Z-iPp6yn0hw/hqdefault.jpg?sqp=-oaymwEXCPYBEIoBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLAO1HBZiyH6WTUtevy5OaT_ysDKTw)](https://www.youtube.com/watch?v=Z-iPp6yn0hw)
 
 ## My hardware installation
 
-[![Raspberry Timelapse installation 1](https://img11.hostingpics.net/pics/990605raspberrypitimelapse.jpg)](https://www.hostingpics.net/viewer.php?id=990605raspberrypitimelapse.jpg)
 [![Raspberry Timelapse installation 2](https://i.imgur.com/9k6PtO4.jpg)](https://i.imgur.com/9k6PtO4.jpg)
 [![Raspberry Timelapse installation 3](https://i.imgur.com/ypKQSn0.jpg)](https://i.imgur.com/ypKQSn0.jpg)
 [![Raspberry Timelapse installation 4](https://i.imgur.com/hfO7SQW.jpg)](https://i.imgur.com/hfO7SQW.jpg)
@@ -19,8 +18,7 @@ To build this project, you'll need:
 * [A Power Supply](http://boutique.semageek.com/fr/723-alimentation-raspberry-pi3-5v-25a-micro-usb.html) (15€)
 * [A 8MP Camera V2 for Raspberry](http://boutique.semageek.com/fr/781-module-camera-8mp-v2-pour-raspberry-pi.html) (35€)
 * [A 60cm Cable Camera 60](http://boutique.semageek.com/fr/365-cable-flex-610mm-pour-camera-raspberry-pi.html) (3€)
-* A Wi-Fi connection
-* Patience and passion
+* Patience and passion (prices not yet available)
 
 Total: 105€
 ##
@@ -28,30 +26,39 @@ Total: 105€
 ### Install Raspbian
 https://www.raspberrypi.org/documentation/installation/installing-images/
 
-### Install PHP 7.1
-https://www.noobunbox.net/serveur/auto-hebergement/installer-php-7-1-sous-debian-et-ubuntu (French link)
+### Installation of PHP 7
+<code>nano /etc/apt/sources.list</code> 
 
-Check success by typing in terminal `php -v`. This should tell you the current PHP version.
+Uncomment the line : 
+<code>deb-src http://raspbian.raspberrypi.org/raspbian/ stretch main contrib non-free rpi</code> 
+
+<code>apt-get update</code> 
+
+<code>apt-get install -t stretch php7.0 php7.0-curl php7.0-gd php7.0-fpm php7.0-cli php7.0-opcache php7.0-mbstring php7.0-xml php7.0-zip</code> 
+
+Test by typing <code>php -v</code> in your terminal. You should have something like :
+
+```
+PHP 7.0.4-7 (cli) ( NTS )  
+Copyright (c) 1997-2016 The PHP Group  
+Zend Engine v3.0.0, Copyright (c) 1998-2016 Zend Technologies  
+with Zend OPcache v7.0.6-dev, Copyright (c) 1999-2016, by Zend Technologies
+```
+
 
 ### Connect and enable your camera
 https://www.raspberrypi.org/documentation/configuration/camera.md
 
 ### Wi-Fi autoconnecting
-
-`sudo editor /etc/wpa_supplicant/wpa_supplicant.conf`
-Append as many networks as you want - here are a few examples:
-
+Type in your terminal :
+<code>sudo nano /etc/wpa_supplicant/wpa_supplicant.conf</code>
+ 
+ And append some thing like :
+ 
 ```
-# Secure Wi-Fi example:
-network={
-    ssid="{your-ssid}"
-    psk="{your-key}"
-}
-
-# Open Wi-Fi example:
-network={
-    ssid="muenchen.freifunk.net"
-    key_mgmt=NONE
+network={  
+    ssid="Livebox-12345"  
+    psk="123456789AZERTY"  
 }
 ```
 
@@ -94,10 +101,14 @@ Reboot again and re-check your local IP
 If it is not same: have patience and good luck. :)
 
 
-### Install VNC server on the Raspberry
-To easily access to your Raspberry every time, you should install VNC. You have to install VNC server on your Raspberry and VNC viewer on you desktop. Follow this good tutorial:
 
-https://www.raspberrypi.org/forums/viewtopic.php?t=123457
+### Installation of VNC server on the Raspberry
+To easily access to your Raspberry every time, you should use VNC. You have to enable VNC server on your Raspberry and install VNC viewer on you desktop.
+
+Menu > Preference > Raspberry configuration > Interfaces > Enable VNC
+
+
+[![Raspberry VNC](https://image.ibb.co/cMPMny/raspberry_vnc.jpg)](https://image.ibb.co/cMPMny/raspberry_vnc.jpg)
 
 ### Install VNC viewer on your desktop
 https://www.realvnc.com/en/connect/download/viewer/
@@ -111,6 +122,19 @@ Follow this good tutorial:
 
 https://hotfirenet.com/blog/1704-envoyer-mail-depuis-le-raspberry-pi/ (French link)
 
+
+If, like me, you use gmail, this is a good configuration :
+```
+hostname=anexistingwebdomain.com
+root=monLogin@gmail.com
+mailhub=smtp.gmail.com:587
+AuthUser= monLogin@gmail.com
+AuthPass=monbeauPaSsWoRd
+FromLineOverride=YES
+UseSTARTTLS=YES
+```
+
+<br>
 
 ### Copy project files
 Copy all project files to your Raspberry in `/home/pi/timelapse/`.
