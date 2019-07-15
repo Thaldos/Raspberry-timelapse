@@ -2,7 +2,7 @@
 ## Video result
 Click to play on youtube :
 
-[![Raspberry Timelapse](https://i.ytimg.com/vi/Z-iPp6yn0hw/hqdefault.jpg?sqp=-oaymwEXCPYBEIoBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLAO1HBZiyH6WTUtevy5OaT_ysDKTw)](https://www.youtube.com/watch?v=Z-iPp6yn0hw)
+[![Raspberry Timelapse](masterofolympus.com/timelapse.gif)](masterofolympus.com/timelapse.gif)
 
 ## My hardware installation
 
