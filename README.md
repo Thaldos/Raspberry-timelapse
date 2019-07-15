@@ -1,8 +1,7 @@
 # Raspberry-timelapse
-## Video result
-Click to play on youtube :
+## Result
 
-[![Raspberry Timelapse](masterofolympus.com/timelapse.gif)](masterofolympus.com/timelapse.gif)
+[![Raspberry Timelapse](http://masterofolympus.com/timelapse.gif)](http://masterofolympus.com/timelapse.gif)
 
 ## My hardware installation
 
