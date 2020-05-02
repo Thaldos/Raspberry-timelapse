@@ -103,7 +103,7 @@ class PicturesService
         $email = new PHPMailer();
         $email->From = 'raspberry@localhost.com';
         $email->FromName = 'Raspberry Timelapse';
-        $email->Subject = 'Raspberry Timelapse : Pictures of ' . $month . ' ' . $year;
+        $email->Subject = 'Raspberry Timelapse ' . $_ENV['RASPBERRY_TITLE'] . ' : Pictures of ' . $month . ' ' . $year;
         $email->Body = 'Hello, this are the pictures of ' . $month . ' ' . $year . '.';
         $email->AddAddress($_ENV['EMAIL_TO']);
         $email->AddAttachment($filePath);
@@ -186,6 +186,6 @@ class PicturesService
         $messageHtml = '<html><body>';
         $messageHtml .= $message;
         $messageHtml .= '</body></html>';
-        mail($_ENV['EMAIL_TO'], 'Raspberry timelapse notification', $messageHtml, $headers);
+        mail($_ENV['EMAIL_TO'], 'Raspberry timelapse ' . $_ENV['RASPBERRY_TITLE'] . ' notification', $messageHtml, $headers);
     }
 }
