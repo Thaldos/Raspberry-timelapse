@@ -117,25 +117,32 @@ Menu > Preference > Raspberry configuration > Interfaces > Enable VNC
 ### Install VNC viewer on your desktop
 https://www.realvnc.com/en/connect/download/viewer/
 
-Launch VNC viewer and add a new connection to `192.168.1.201`, with the user `pi` and password `raspberry`.
+Launch VNC viewer and add a new connection to `192.168.8.203`, with the user `pi` and password `raspberry`.
 
 > Important note: be sure te be on same Wi-Fi network on both sides.
 
-### Install SMTP
-Follow this good tutorial:
+### Use your gmail account to send mail from your Raspberry
+Install msmtp by typing `sudo apt-get install msmtp msmtp-mta`.
 
-https://hotfirenet.com/blog/1704-envoyer-mail-depuis-le-raspberry-pi/ (French link)
-
-
-If, like me, you use gmail, this is a good configuration :
+Type `sudo nano ~/.msmtprc` and append this to the file:
 ```
-hostname=anexistingwebdomain.com
-root=monLogin@gmail.com
-mailhub=smtp.gmail.com:587
-AuthUser=monLogin@gmail.com
-AuthPass=monbeauPaSsWoRd
-FromLineOverride=YES
-UseSTARTTLS=YES
+account default
+tls on
+host smtp.gmail.com
+port 587
+from you@gmail.com
+auth on
+user you
+password password_user
+tls_starttls on
+tls_certcheck off
+```
+
+Then type `chmod 666 ~/.msmtprc`.
+
+And test :
+```
+echo "Ceci est un mail de test" | msmtp your-email@domain.com
 ```
 
 <br>
