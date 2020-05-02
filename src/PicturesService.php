@@ -104,7 +104,7 @@ class PicturesService
         $email->From = 'raspberry@localhost.com';
         $email->FromName = 'Raspberry Timelapse';
         $email->Subject = 'Raspberry Timelapse ' . $_ENV['RASPBERRY_TITLE'] . ' : Pictures of ' . $month . ' ' . $year;
-        $email->Body = 'Hello, this are the pictures of ' . $month . ' ' . $year . '.';
+        $email->Body = 'Hello, please found in the attached archive the pictures of ' . $month . ' ' . $year . '.';
         $email->AddAddress($_ENV['EMAIL_TO']);
         $email->AddAttachment($filePath);
         $sendReturn = $email->Send();
