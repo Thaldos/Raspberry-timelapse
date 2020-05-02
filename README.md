@@ -1,7 +1,7 @@
 # Raspberry-timelapse
 ## Timelapse result
 
-![](http://www.masterofolympus.com/timelapse.gif)
+![Raspberry Timelapse](timelapse.gif)
 
 <br>
 
