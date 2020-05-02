@@ -49,6 +49,20 @@ Zend Engine v3.0.0, Copyright (c) 1998-2016 Zend Technologies
 with Zend OPcache v7.3.6-dev, Copyright (c) 1999-2016, by Zend Technologies
 ```
 
+### Installation of Curl
+Type in Raspberry terminal :
+
+```
+sudo apt-get install curl
+```
+
+### Installation of Composer
+Type in Raspberry terminal :
+
+```
+cd /usr/src  
+curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
+```
 
 ### Connect and enable your camera
 https://www.raspberrypi.org/documentation/configuration/camera.md
