@@ -2,7 +2,8 @@
     "name": "thaldos/raspberry-timelapse",
     "description": "Timelapse with Raspberry pi",
     "require": {
-        "symfony/dotenv": "^5.0"
+        "symfony/dotenv": "^5.0",
+        "phpmailer/phpmailer": "^6.1"
     },
     "autoload": {
         "psr-4": {

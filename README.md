@@ -168,6 +168,7 @@ Copy all this project files to your Raspberry in `/home/pi/Raspberry-timelapse/`
 cd /home/pi/
 git clone https://github.com/Thaldos/Raspberry-timelapse.git
 ```
+Create manually the folder : `/home/pi/Raspberry-timelapse/pictures`.
 
 ### Configuration
 Copy `.env.dist` to `.env` and customize the constants in the `.env` file as your wish.

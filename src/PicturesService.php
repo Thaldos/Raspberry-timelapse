@@ -1,6 +1,7 @@
 <?php
 
 use Symfony\Component\Dotenv\Dotenv;
+use PHPMailer\PHPMailer\PHPMailer;
 
 class PicturesService
 {
