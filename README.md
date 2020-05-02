@@ -3,13 +3,6 @@
 
 [![Raspberry Timelapse](http://masterofolympus.com/timelapse.gif)](http://masterofolympus.com/timelapse.gif)
 
-## My hardware installation
-
-[![Raspberry Timelapse installation 2](https://i.imgur.com/9k6PtO4.jpg)](https://i.imgur.com/9k6PtO4.jpg)
-[![Raspberry Timelapse installation 3](https://i.imgur.com/ypKQSn0.jpg)](https://i.imgur.com/ypKQSn0.jpg)
-[![Raspberry Timelapse installation 4](https://i.imgur.com/hfO7SQW.jpg)](https://i.imgur.com/hfO7SQW.jpg)
-[![Raspberry Timelapse installation 5](https://i.imgur.com/iuf27CX.jpg)](https://i.imgur.com/iuf27CX.jpg)
-
 ## Prerequisites
 To build this project, you'll need:
 * [A Raspberry Pi 3 model B](https://www.adafruit.com/product/3055) (40€)
@@ -20,28 +13,38 @@ To build this project, you'll need:
 * Patience and passion (prices not yet available)
 
 Total: 105€
-##
-## Raspberry Pi installation
-### Install Raspbian
-https://www.raspberrypi.org/documentation/installation/installing-images/
 
-### Installation of PHP 7
+<br>
+
+## Raspberry Pi installation
+### Installation of Raspbian
+Download the NOOBS OS : https://downloads.raspberrypi.org/NOOBS_latest
+
+Extract the archive.
+
+Copy past the files on your SD cart.
+
+Insert the SD cart in your Raspberry Pi and start it.
+
+Follow the installations steps.
+
+### Installation of PHP 7.3
 <code>nano /etc/apt/sources.list</code> 
 
 Uncomment the line : 
-<code>deb-src http://raspbian.raspberrypi.org/raspbian/ stretch main contrib non-free rpi</code> 
+<code>deb-src http://raspbian.raspberrypi.org/raspbian/ buster main contrib non-free rpi</code> 
 
 <code>apt-get update</code> 
 
-<code>apt-get install -t stretch php7.0 php7.0-curl php7.0-gd php7.0-fpm php7.0-cli php7.0-opcache php7.0-mbstring php7.0-xml php7.0-zip</code> 
+<code>apt-get install -t buster php7.3 php7.3-curl php7.3-gd php7.3-fpm php7.3-cli php7.3-opcache php7.3-mbstring php7.3-xml php7.3-zip</code> 
 
 Test by typing <code>php -v</code> in your terminal. You should have something like :
 
 ```
-PHP 7.0.4-7 (cli) ( NTS )  
+PHP 7.3.4-7 (cli) ( NTS )  
 Copyright (c) 1997-2016 The PHP Group  
 Zend Engine v3.0.0, Copyright (c) 1998-2016 Zend Technologies  
-with Zend OPcache v7.0.6-dev, Copyright (c) 1999-2016, by Zend Technologies
+with Zend OPcache v7.3.6-dev, Copyright (c) 1999-2016, by Zend Technologies
 ```
 
 
@@ -85,9 +88,9 @@ Then `sudo nano /etc/dhcpcd.conf` and append this to the file:
 ```
 # Configuration ip fix wlan :
 interface wlan0
-static ip_address=192.168.1.201/24 #replace 201 by your wish
-static routers=192.168.1.1
-static domain_name_servers=192.168.1.1
+static ip_address=192.168.8.203/24 #replace 203 by your wish
+static routers=192.168.8.1
+static domain_name_servers=192.168.8.1
 ```
 > [More details on this step here](http://limen-arcanum.fr/2016/03/raspberry-3-et-ip-fixe-en-wifi/) (French link)
 
@@ -135,24 +138,37 @@ UseSTARTTLS=YES
 
 <br>
 
-### Copy project files
-Copy all project files to your Raspberry in `/home/pi/timelapse/`.
+## Project installation
+### Copying of the project files on your Raspberry pi
+Copy all this project files to your Raspberry in `/home/pi/Raspberry-timelapse/` by typing :
+```
+cd /home/pi/
+git clone https://github.com/Thaldos/Raspberry-timelapse.git
+```
 
-Chmod file `/home/pi/timelapse/takepicture.sh` to 777.
+### Configuration
+Copy `.env.dist` to `.env` and customize the constants in the `.env` file as your wish.
 
-Chmod file `/home/pi/timelapse/sendpictures.php` to 777.
+### Download the vendors 
+Then type in Raspberry terminal :
 
-Chmod directory `/home/pi/timelapse/pictures/` to 777.
+```
+cd /home/pi/Raspberry-timelapse/ 
+composer install
+```
 
-### Customize config.php
-Customize the constants in `config.php`
+Chmod file `/home/pi/Raspberry-timelapse/takepicture.sh` to 777.
+
+Chmod file `/home/pi/Raspberry-timelapse/sendpictures.php` to 777.
+
+Chmod directory `/home/pi/Raspberry-timelapse/pictures/` to 777.
 
 ### Set a cron tab
 On your Raspberry, in terminal, type `crontab -e` and add that line:
 ```
-0 14 * * * /home/pi/timelapse/takepicture.sh 2>&1
-0 0 1 * * php /home/pi/timelapse/sendpictures.php 2>&1
+0 14 * * * /home/pi/Raspberry-timelapse/takepicture.sh 2>&1
+0 0 1 * * php /home/pi/Raspberry-timelapse/sendpictures.php 2>&1
 ```
 
 ### Enjoy!
-Your Raspberry pi will take a picture every day, and send you pictures every month by e-mail.
+Your Raspberry pi will take a picture every day, and send to you the pictures every month by e-mail.

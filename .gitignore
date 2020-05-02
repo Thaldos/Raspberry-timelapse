@@ -3,3 +3,7 @@
 .buildpath
 .project
 .DS_Store
+.env
+vendor
+src/lasttemperature.txt
+src/lastwatering.txt
