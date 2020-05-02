@@ -1,7 +1,9 @@
 # Raspberry-timelapse
-## Result
+## Timelapse result
 
 [![Raspberry Timelapse](http://masterofolympus.com/timelapse.gif)](http://masterofolympus.com/timelapse.gif)
+
+<br>
 
 ## Prerequisites
 To build this project, you'll need:
